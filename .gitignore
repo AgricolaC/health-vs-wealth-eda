@@ -1,3 +1,11 @@
+# Ignore raw data
+data/raw/
+
+# Ignore temporary files
+__pycache__/
+*.ipynb_checkpoints
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
