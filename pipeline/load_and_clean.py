@@ -14,7 +14,6 @@ def load_first():
 
 # load_first()
 
-# Target indicators
 INDICATORS_TO_KEEP = {
     "SH.XPD.PCAP": "health_exp_per_capita", # Health expenditure per capita (current US$)
     "SH.XPD.PCAP.PP.KD": "health_exp_ppp_per_capita", # Health expenditure per capita, PPP
@@ -80,7 +79,6 @@ def load_and_clean_life_expectancy():
     if not all(col in df.columns for col in ["Year", "Country Name", "Country Code", "Life Expectancy"]):
         raise ValueError("Expected columns not found in life expectancy file")
 
-    # Ensure year is numeric and within the correct range
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
     df = df[df["Year"].between(1950, 2025)]
 
@@ -108,14 +106,13 @@ def merge_and_save():
     if df.empty:
         raise ValueError("Merged dataset is empty. Check for non-overlapping countries/years.")
     
-    # Optional: Keep one Country Name column for readability
     df = df.drop_duplicates(subset=["Country Code", "Year"])
     df = df.sort_values(["Country Code", "Year"])
 
     os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
     out_path = os.path.join(PROCESSED_DATA_DIR, "health_vs_life.csv")
     df.to_csv(out_path, index=False)
-    print(f"✅ Saved cleaned dataset to {out_path}")
+    print(f"Saved cleaned dataset to {out_path}")
 
 if __name__ == "__main__":
     merge_and_save()
